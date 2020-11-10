@@ -4,6 +4,7 @@ import logging
 import argparse
 import json
 
+import get_data
 import settings
 import utils
 import data_manager
@@ -12,7 +13,7 @@ import data_manager
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--stock_code', nargs='+')
-    parser.add_argument('--ver', choices=['v1', 'v2'], default='v2')
+    parser.add_argument('--ver', choices=['v1', 'v2'], default='v1')
     parser.add_argument('--rl_method', 
         choices=['dqn', 'pg', 'ac', 'a2c', 'a3c'])
     parser.add_argument('--net', 
@@ -21,7 +22,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr', type=float, default=0.01)
     parser.add_argument('--discount_factor', type=float, default=0.9)
     parser.add_argument('--start_epsilon', type=float, default=0)
-    parser.add_argument('--balance', type=int, default=10000000)
+    parser.add_argument('--balance', type=int, default=100000)
     parser.add_argument('--num_epoches', type=int, default=100)
     parser.add_argument('--delayed_reward_threshold', 
         type=float, default=0.05)
@@ -32,8 +33,8 @@ if __name__ == '__main__':
     parser.add_argument('--policy_network_name')
     parser.add_argument('--reuse_models', action='store_true')
     parser.add_argument('--learning', action='store_true')
-    parser.add_argument('--start_date', default='20170101')
-    parser.add_argument('--end_date', default='20171231')
+    parser.add_argument('--start_date', default='20190101')
+    parser.add_argument('--end_date', default='20191231')
     args = parser.parse_args()
 
     # Keras Backend 설정
@@ -91,7 +92,15 @@ if __name__ == '__main__':
     list_min_trading_unit = []
     list_max_trading_unit = []
 
+
     for stock_code in args.stock_code:
+
+
+        print(stock_code)
+        print(type(stock_code))
+        get_data.get_data(stock_code,
+            args.start_date, args.end_date, ver=args.ver)
+
         # 차트 데이터, 학습 데이터 준비
         chart_data, training_data = data_manager.load_data(
             os.path.join(settings.BASE_DIR, 

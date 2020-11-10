@@ -47,6 +47,7 @@ COLUMNS_TRAINING_DATA_V2 = [
 
 
 def preprocess(data, ver='v1'):
+
     windows = [5, 10, 20, 60, 120]
     for window in windows:
         data['close_ma{}'.format(window)] = \
@@ -111,9 +112,10 @@ def preprocess(data, ver='v1'):
 
 
 def load_data(fpath, date_from, date_to, ver='v2'):
+
     header = None if ver == 'v1' else 0
-    data = pd.read_csv(fpath, thousands=',', header=header, 
-        converters={'date': lambda x: str(x)})
+    data = pd.read_csv(fpath, thousands=',', header=None,
+        converters={'date': lambda x: str(x)}, skiprows=1)
 
     if ver == 'v1':
         data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
