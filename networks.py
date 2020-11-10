@@ -73,15 +73,9 @@ class Network:
         with graph.as_default():
             if sess is not None:
                 set_session(sess)
-            if net == 'dnn':
-                return DNN.get_network_head(Input((input_dim,)))
-            elif net == 'lstm':
-                return LSTMNetwork.get_network_head(
-                    Input((num_steps, input_dim)))
-            elif net == 'cnn':
-                return CNN.get_network_head(
-                    Input((1, num_steps, input_dim)))
 
+            return LSTMNetwork.get_network_head(
+                    Input((num_steps, input_dim)))
 
 class LSTMNetwork(Network):
     def __init__(self, *args, num_steps=1, **kwargs):

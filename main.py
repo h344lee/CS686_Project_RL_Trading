@@ -114,28 +114,23 @@ if __name__ == '__main__':
 
         # 강화학습 시작
         learner = None
-        if args.rl_method != 'a3c':
-            common_params.update({'stock_code': stock_code,
-                'chart_data': chart_data,
-                'training_data': training_data,
-                'min_trading_unit': min_trading_unit,
-                'max_trading_unit': max_trading_unit})
-            if args.rl_method == 'dqn':
-                learner = DQNLearner(**{**common_params,
-                'value_network_path': value_network_path})
 
-            if learner is not None:
-                learner.run(balance=args.balance,
-                    num_epoches=args.num_epoches,
-                    discount_factor=args.discount_factor,
-                    start_epsilon=args.start_epsilon,
-                    learning=args.learning)
-                learner.save_models()
-        else:
-            list_stock_code.append(stock_code)
-            list_chart_data.append(chart_data)
-            list_training_data.append(training_data)
-            list_min_trading_unit.append(min_trading_unit)
-            list_max_trading_unit.append(max_trading_unit)
+        common_params.update({'stock_code': stock_code,
+            'chart_data': chart_data,
+            'training_data': training_data,
+            'min_trading_unit': min_trading_unit,
+            'max_trading_unit': max_trading_unit})
+
+        learner = DQNLearner(**{**common_params,
+        'value_network_path': value_network_path})
+
+        if learner is not None:
+            learner.run(balance=args.balance,
+                num_epoches=args.num_epoches,
+                discount_factor=args.discount_factor,
+                start_epsilon=args.start_epsilon,
+                learning=args.learning)
+            learner.save_models()
+
 
 
