@@ -59,16 +59,22 @@ def load_data(fpath, date_from, date_to, ver='v1'):
 
     data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
 
+
+
+
     # 날짜 오름차순 정렬
     data = data.sort_values(by='date').reset_index()
 
+
+
     # 데이터 전처리
     data = preprocess(data)
-    
+
     # 기간 필터링
     data['date'] = data['date'].str.replace('-', '')
     data = data[(data['date'] >= date_from) & (data['date'] <= date_to)]
     data = data.dropna()
+
 
     # 차트 데이터 분리
     chart_data = data[COLUMNS_CHART_DATA]

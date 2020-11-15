@@ -1,7 +1,7 @@
 import threading
 import numpy as np
 import matplotlib.pyplot as plt
-plt.switch_backend('agg')
+#plt.switch_backend('agg')
 
 from mplfinance.original_flavor import candlestick_ohlc
 from agent import Agent
@@ -124,6 +124,8 @@ class Visualizer:
             self.fig.tight_layout()
             self.fig.subplots_adjust(top=0.85)
 
+
+
     def clear(self, xlim):
         with lock:
             _axes = self.axes.tolist()
@@ -148,3 +150,38 @@ class Visualizer:
     def save(self, path):
         with lock:
             self.fig.savefig(path)
+
+def present_stock(chart_data, pvs, buyAndHoldValue, title):
+    with lock:
+        # 캔버스를 초기화하고 5개의 차트를 그릴 준비
+        fig, axes = plt.subplots(
+            nrows=2, ncols=1, facecolor='w', sharex=True)
+        for ax in axes:
+            # 보기 어려운 과학적 표기 비활성화
+            ax.get_xaxis().get_major_formatter() \
+                .set_scientific(False)
+            ax.get_yaxis().get_major_formatter() \
+                .set_scientific(False)
+            # y axis 위치 오른쪽으로 변경
+            ax.yaxis.tick_right()
+
+        # 차트 1. 일봉 차트
+        axes[0].set_ylabel('Price')  # y 축 레이블 표시
+        x = np.arange(len(chart_data))
+
+        # open, high, low, close 순서로된 2차원 배열
+        ohlc = np.hstack((
+            x.reshape(-1, 1), np.array(chart_data)[:, 1:-1]))
+        # 양봉은 blue색으로 음봉은 red색으로 표시
+        candlestick_ohlc(
+            axes[0], ohlc, colorup='b', colordown='r')
+
+        # 거래량 가시화
+        axes[0] = axes[0].twinx()
+        volume = np.array(chart_data)[:, -1].tolist()
+        axes[0].bar(x, volume, color='b', alpha=0.3)
+
+        axes[1].plot(x, pvs, color='r')
+        axes[1].plot(x, buyAndHoldValue, color='b')
+
+        plt.show()

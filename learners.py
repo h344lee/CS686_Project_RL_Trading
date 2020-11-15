@@ -347,6 +347,8 @@ class ReinforcementLearner:
             if self.agent.portfolio_value > self.agent.initial_balance:
                 epoch_win_cnt += 1
 
+
+
         # 종료 시간
         time_end = time.time()
         elapsed_time = time_end - time_start
@@ -357,6 +359,9 @@ class ReinforcementLearner:
                 "Max PV:{max_pv:,.0f} #Win:{cnt_win}".format(
                 code=self.stock_code, elapsed_time=elapsed_time, 
                 max_pv=max_portfolio_value, cnt_win=epoch_win_cnt))
+
+        return self.memory_pv
+
 
     def save_models(self):
         if self.value_network is not None and \
