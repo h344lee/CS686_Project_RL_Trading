@@ -149,10 +149,19 @@ def buyAndHold(chart_data):
 if __name__ == '__main__':
 
     #args = init(stock_code, num_epoches, num_steps)
-    args = init('MSFT', 10, 5)
+    args = init('MSFT', 10, 20)
     chart_data, pvs = executor(args)
     buyAndHoldValue = buyAndHold(chart_data)
     visualizer.present_stock (chart_data, pvs, buyAndHoldValue, "test")
+
+
+    # steps = [5,10,20]
+    # steps_pvs = []
+    # for step in steps :
+    #     args = init('MSFT', 10, step)
+    #     chart_data, pvs = executor(args)
+    #     steps_pvs.append(pvs)
+    # visualizer.present_steps(chart_data, steps, steps_pvs)
 
 
 

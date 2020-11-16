@@ -201,6 +201,7 @@ class ReinforcementLearner:
             initial_balance=self.agent.initial_balance, 
             pvs=self.memory_pv,
         )
+
         self.visualizer.save(os.path.join(
             self.epoch_summary_dir, 
             'epoch_summary_{}.png'.format(epoch_str))

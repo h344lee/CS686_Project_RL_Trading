@@ -179,9 +179,30 @@ def present_stock(chart_data, pvs, buyAndHoldValue, title):
         # 거래량 가시화
         axes[0] = axes[0].twinx()
         volume = np.array(chart_data)[:, -1].tolist()
-        axes[0].bar(x, volume, color='b', alpha=0.3)
+        axes[0].bar(x, volume, color='b', alpha=0.3, label = 'Stock Volume')
+        axes[0].legend()
 
-        axes[1].plot(x, pvs, color='r')
-        axes[1].plot(x, buyAndHoldValue, color='b')
+        axes[1].plot(x, pvs, color='r', label = 'Reinforcement Learning Portfolio Value')
+        axes[1].plot(x, buyAndHoldValue, color='b', label = 'Buy and Hold Strategy Portfolio Value')
 
+        axes[1].legend()
         plt.show()
+
+
+def present_steps(chart_data, steps, steps_pvs):
+    with lock:
+        fig, ax = plt.subplots()
+        # 캔버스를 초기화하고 5개의 차트를 그릴 준비
+        plt.xlabel('Date')
+        plt.ylabel('Price')
+        plt.title('Portfolio Value by Steps')
+
+        x = np.arange(len(chart_data))
+        color_code = ['r', 'g', 'b']
+
+        for i in range(len(steps_pvs)) :
+            plt.plot(x, steps_pvs[i], color = color_code[i], label = 'number of steps {}'.format(steps[i]))
+
+        plt.legend()
+        plt.show()
+
