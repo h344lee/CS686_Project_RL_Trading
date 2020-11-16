@@ -186,6 +186,7 @@ def present_stock(chart_data, pvs, buyAndHoldValue, title):
         axes[1].plot(x, buyAndHoldValue, color='b', label = 'Buy and Hold Strategy Portfolio Value')
 
         axes[1].legend()
+        plt.savefig("present_stock.png")
         plt.show()
 
 
@@ -204,5 +205,6 @@ def present_steps(chart_data, steps, steps_pvs):
             plt.plot(x, steps_pvs[i], color = color_code[i], label = 'number of steps {}'.format(steps[i]))
 
         plt.legend()
+        plt.savefig("present_steps.png")
         plt.show()
 
