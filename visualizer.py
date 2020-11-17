@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+from matplotlib.pyplot import figure
 import matplotlib.dates as mdates
 import datetime
 
@@ -164,8 +165,8 @@ def present_stock(chart_data, stock_name):
 
     # 차트 1. 일봉 차트
 
-    fig = plt.figure()
-    ax1 = plt.subplot2grid((1, 1), (0, 0))
+
+    fig, ax1 = plt.subplots()
 
     plt.ylabel('Price')  # y 축 레이블 표시
     x = np.arange(len(chart_data))
@@ -177,7 +178,7 @@ def present_stock(chart_data, stock_name):
     # 양봉은 blue색으로 음봉은 red색으로 표시
     candlestick_ohlc( ax1, ohlc, colorup='b', colordown='r')
     for label in ax1.xaxis.get_ticklabels():
-        label.set_rotation(45)
+        label.set_rotation(20)
 
     # 거래량 가시화
     ax1 = ax1.twinx()
@@ -187,21 +188,20 @@ def present_stock(chart_data, stock_name):
     ax1.xaxis.set_major_locator(mticker.MaxNLocator(10))
 
     for label in ax1.xaxis.get_ticklabels():
-        label.set_rotation(45)
+        label.set_rotation(20)
 
     ax1.grid(True)
     ax1.legend()
-
+    fig.tight_layout()
     plt.title(stock_name +' Stock Value')
 
-    plt.savefig(stock_name + '_present_stock.png')
+    plt.savefig(stock_name + '_present_stock.svg', format='svg')
     plt.show()
 
 
 def preset_buyAndHold (chart_data, pvs, buyAndHoldValue, stock_name):
 
     fig, ax = plt.subplots()
-
     plt.title('Comparison between Buy-And-Hold and DQN portfolio ')
     plt.ylabel('Portfolio Value')
     plt.xlabel('Date')
@@ -215,13 +215,13 @@ def preset_buyAndHold (chart_data, pvs, buyAndHoldValue, stock_name):
     # plt.set_xticklabels(xs)  # set the ticklabels to the list of datetimes
 
     for label in ax.xaxis.get_ticklabels():
-        label.set_rotation(45)
+        label.set_rotation(20)
 
     ax.xaxis.set_major_locator(mticker.MaxNLocator(10))
     ax.grid(True)
-
+    fig.tight_layout()
     plt.legend()
-    plt.savefig(stock_name +"_buy_and_hold.png")
+    plt.savefig(stock_name +'_buy_and_hold.svg', format='svg')
     plt.show()
 
 
@@ -229,7 +229,7 @@ def preset_buyAndHold (chart_data, pvs, buyAndHoldValue, stock_name):
 def present_steps(chart_data, steps, steps_pvs, stock_name):
     with lock:
         fig, ax = plt.subplots()
-        # 캔버스를 초기화하고 5개의 차트를 그릴 준비
+
         plt.xlabel('Date')
         plt.ylabel('Price')
         plt.title('Portfolio Value by LSTM Steps')
@@ -242,11 +242,11 @@ def present_steps(chart_data, steps, steps_pvs, stock_name):
 
             ax.xaxis.set_major_locator(mticker.MaxNLocator(10))
             for label in ax.xaxis.get_ticklabels():
-                label.set_rotation(45)
+                label.set_rotation(20)
 
             ax.grid(True)
-
+        fig.tight_layout()
         plt.legend()
-        plt.savefig(stock_name + "_present_steps.png")
+        plt.savefig(stock_name + '_present_steps.svg', format='svg')
         plt.show()
 

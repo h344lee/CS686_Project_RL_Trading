@@ -33,7 +33,7 @@ def init(stock_code, num_epoches, num_steps ):
     parser.add_argument('--policy_network_name')
     parser.add_argument('--reuse_models', action='store_true')
     parser.add_argument('--learning', default=True)
-    parser.add_argument('--start_date', default='20160901')
+    parser.add_argument('--start_date', default='20160713')
     parser.add_argument('--end_date', default='20191231')
     args = parser.parse_args()
 
@@ -150,7 +150,7 @@ if __name__ == '__main__':
     # #args = init(stock_code, num_epoches, num_steps)
 
     stock_name = 'GOOGL'
-    args = init(stock_name, 5, 5)
+    args = init(stock_name, 10, 5)
     chart_data, pvs = executor(args)
     buyAndHoldValue = buyAndHold(chart_data)
     visualizer.present_stock (chart_data, stock_name)
@@ -159,7 +159,7 @@ if __name__ == '__main__':
     steps = [3,4,5,6,10]
     steps_pvs = []
     for step in steps :
-        args = init('GOOGL', 5, step)
+        args = init('GOOGL', 10, step)
         chart_data, pvs = executor(args)
         steps_pvs.append(pvs)
     visualizer.present_steps(chart_data, steps, steps_pvs, stock_name)
