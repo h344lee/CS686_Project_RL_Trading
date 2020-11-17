@@ -194,11 +194,11 @@ def present_stock(chart_data, stock_name):
 
     plt.title(stock_name +' Stock Value')
 
-    plt.savefig("present_stock.png")
+    plt.savefig(stock_name + '_present_stock.png')
     plt.show()
 
 
-def preset_buyAndHold (chart_data, pvs, buyAndHoldValue):
+def preset_buyAndHold (chart_data, pvs, buyAndHoldValue, stock_name):
 
     fig, ax = plt.subplots()
 
@@ -221,12 +221,12 @@ def preset_buyAndHold (chart_data, pvs, buyAndHoldValue):
     ax.grid(True)
 
     plt.legend()
-    plt.savefig("buy_and_hold.png")
+    plt.savefig(stock_name +"_buy_and_hold.png")
     plt.show()
 
 
 
-def present_steps(chart_data, steps, steps_pvs):
+def present_steps(chart_data, steps, steps_pvs, stock_name):
     with lock:
         fig, ax = plt.subplots()
         # 캔버스를 초기화하고 5개의 차트를 그릴 준비
@@ -247,6 +247,6 @@ def present_steps(chart_data, steps, steps_pvs):
             ax.grid(True)
 
         plt.legend()
-        plt.savefig("present_steps.png")
+        plt.savefig(stock_name + "_present_steps.png")
         plt.show()
 
