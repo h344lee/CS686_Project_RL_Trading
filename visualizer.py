@@ -1,7 +1,10 @@
 import threading
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-#plt.switch_backend('agg')
+import matplotlib.ticker as mticker
+import matplotlib.dates as mdates
+import datetime
 
 from mplfinance.original_flavor import candlestick_ohlc
 from agent import Agent
@@ -151,43 +154,76 @@ class Visualizer:
         with lock:
             self.fig.savefig(path)
 
-def present_stock(chart_data, pvs, buyAndHoldValue, title):
-    with lock:
-        # 캔버스를 초기화하고 5개의 차트를 그릴 준비
-        fig, axes = plt.subplots(
-            nrows=2, ncols=1, facecolor='w', sharex=True)
-        for ax in axes:
-            # 보기 어려운 과학적 표기 비활성화
-            ax.get_xaxis().get_major_formatter() \
-                .set_scientific(False)
-            ax.get_yaxis().get_major_formatter() \
-                .set_scientific(False)
-            # y axis 위치 오른쪽으로 변경
-            ax.yaxis.tick_right()
 
-        # 차트 1. 일봉 차트
-        axes[0].set_ylabel('Price')  # y 축 레이블 표시
-        x = np.arange(len(chart_data))
 
-        # open, high, low, close 순서로된 2차원 배열
-        ohlc = np.hstack((
-            x.reshape(-1, 1), np.array(chart_data)[:, 1:-1]))
-        # 양봉은 blue색으로 음봉은 red색으로 표시
-        candlestick_ohlc(
-            axes[0], ohlc, colorup='b', colordown='r')
 
-        # 거래량 가시화
-        axes[0] = axes[0].twinx()
-        volume = np.array(chart_data)[:, -1].tolist()
-        axes[0].bar(x, volume, color='b', alpha=0.3, label = 'Stock Volume')
-        axes[0].legend()
 
-        axes[1].plot(x, pvs, color='r', label = 'Reinforcement Learning Portfolio Value')
-        axes[1].plot(x, buyAndHoldValue, color='b', label = 'Buy and Hold Strategy Portfolio Value')
+def present_stock(chart_data, stock_name):
+    import matplotlib.pyplot as plt
+    import matplotlib.ticker as mticker
 
-        axes[1].legend()
-        plt.savefig("present_stock.png")
-        plt.show()
+    # 차트 1. 일봉 차트
+
+    fig = plt.figure()
+    ax1 = plt.subplot2grid((1, 1), (0, 0))
+
+    plt.ylabel('Price')  # y 축 레이블 표시
+    x = np.arange(len(chart_data))
+
+    # open, high, low, close 순서로된 2차원 배열
+    ohlc = np.hstack((
+        x.reshape(-1, 1), np.array(chart_data)[:, 1:-1]))
+
+    # 양봉은 blue색으로 음봉은 red색으로 표시
+    candlestick_ohlc( ax1, ohlc, colorup='b', colordown='r')
+    for label in ax1.xaxis.get_ticklabels():
+        label.set_rotation(45)
+
+    # 거래량 가시화
+    ax1 = ax1.twinx()
+    volume = np.array(chart_data)[:, -1].tolist()
+    ax1.bar(list(chart_data['date']), volume, color='b', alpha=0.3, label = 'Stock Volume')
+
+    ax1.xaxis.set_major_locator(mticker.MaxNLocator(10))
+
+    for label in ax1.xaxis.get_ticklabels():
+        label.set_rotation(45)
+
+    ax1.grid(True)
+    ax1.legend()
+
+    plt.title(stock_name +' Stock Value')
+
+    plt.savefig("present_stock.png")
+    plt.show()
+
+
+def preset_buyAndHold (chart_data, pvs, buyAndHoldValue):
+
+    fig, ax = plt.subplots()
+
+    plt.title('Comparison between Buy-And-Hold and DQN portfolio ')
+    plt.ylabel('Portfolio Value')
+    plt.xlabel('Date')
+    xs = chart_data['date'].to_list()
+    print (xs[: 10])
+
+    plt.plot(xs, pvs, color='r', label='Reinforcement Learning Portfolio Value')
+    plt.plot(xs, buyAndHoldValue, color='b', label='Buy and Hold Strategy Portfolio Value')
+
+    # plt.set_xticks(np.arange(len(xs)))
+    # plt.set_xticklabels(xs)  # set the ticklabels to the list of datetimes
+
+    for label in ax.xaxis.get_ticklabels():
+        label.set_rotation(45)
+
+    ax.xaxis.set_major_locator(mticker.MaxNLocator(10))
+    ax.grid(True)
+
+    plt.legend()
+    plt.savefig("buy_and_hold.png")
+    plt.show()
+
 
 
 def present_steps(chart_data, steps, steps_pvs):
@@ -196,13 +232,19 @@ def present_steps(chart_data, steps, steps_pvs):
         # 캔버스를 초기화하고 5개의 차트를 그릴 준비
         plt.xlabel('Date')
         plt.ylabel('Price')
-        plt.title('Portfolio Value by Steps')
+        plt.title('Portfolio Value by LSTM Steps')
 
         x = np.arange(len(chart_data))
-        color_code = ['r', 'g', 'b']
+        color_code = ['r', 'g', 'b', 'k', 'c', 'm', 'y']
 
         for i in range(len(steps_pvs)) :
-            plt.plot(x, steps_pvs[i], color = color_code[i], label = 'number of steps {}'.format(steps[i]))
+            plt.plot(list(chart_data['date']), steps_pvs[i], color = color_code[i], label = 'number of steps {}'.format(steps[i]))
+
+            ax.xaxis.set_major_locator(mticker.MaxNLocator(10))
+            for label in ax.xaxis.get_ticklabels():
+                label.set_rotation(45)
+
+            ax.grid(True)
 
         plt.legend()
         plt.savefig("present_steps.png")
