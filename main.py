@@ -33,7 +33,7 @@ def init(stock_code, num_epoches, num_steps ):
     parser.add_argument('--policy_network_name')
     parser.add_argument('--reuse_models', action='store_true')
     parser.add_argument('--learning', default=True)
-    parser.add_argument('--start_date', default='20190101')
+    parser.add_argument('--start_date', default='20160901')
     parser.add_argument('--end_date', default='20191231')
     args = parser.parse_args()
 
