@@ -2,10 +2,10 @@
 
 It is a Deep Q learning based US stock trading algorithm.
 
-the performance of this algorithm is compared to the buy-and-hold strategy.
+- The performance of this algorithm is compared to the buy-and-hold strategy.
 <img src="https://github.com/h344lee/CS686_Project_RL_Trading/blob/master/GOOGL_buy_and_hold.png" width="300" height="200">
 
-It can present the different performance based on LSTM value network step size
+- It can present different performance based on the LSTM value network step size.
 <img src="https://github.com/h344lee/CS686_Project_RL_Trading/blob/master/GOOGL_present_steps.png" width="300" height="200">
 
 ## Environment
@@ -18,8 +18,9 @@ It can present the different performance based on LSTM value network step size
   
 ## How to run? 
 
-You can run this program in Google Colab very easily
- 
+You can run this program in Google Colab pretty easily
+
+
 ```markdown
 !pip uninstall -y tensorflow
 !pip install tensorflow-gpu==1.15
