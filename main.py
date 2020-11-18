@@ -150,15 +150,14 @@ if __name__ == '__main__':
     # #args = init(stock_code, num_epoches, num_steps)
 
     stock_names = ['GOOGL', 'AAPL', 'FB', 'AMZN', 'MSFT']
-    stock_names = ['GOOGL']
 
     for stock_name in stock_names :
 
-        # args = init(stock_name, 5, 5)
-        # chart_data, pvs = executor(args)
-        # buyAndHoldValue = buyAndHold(chart_data)
-        # visualizer.present_stock (chart_data, stock_name)
-        # visualizer.preset_buyAndHold(chart_data, pvs, buyAndHoldValue, stock_name)
+        args = init(stock_name, 10, 4)
+        chart_data, pvs = executor(args)
+        buyAndHoldValue = buyAndHold(chart_data)
+        visualizer.present_stock (chart_data, stock_name)
+        visualizer.preset_buyAndHold(chart_data, pvs, buyAndHoldValue, stock_name)
 
         steps = [3,6,9]
         steps_pvs = []
