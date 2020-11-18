@@ -33,7 +33,7 @@ def init(stock_code, num_epoches, num_steps ):
     parser.add_argument('--policy_network_name')
     parser.add_argument('--reuse_models', action='store_true')
     parser.add_argument('--learning', default=True)
-    parser.add_argument('--start_date', default='20160713')
+    parser.add_argument('--start_date', default='20160714')
     parser.add_argument('--end_date', default='20191231')
     args = parser.parse_args()
 
@@ -106,8 +106,8 @@ def executor(agrs) :
         args.start_date, args.end_date, ver=args.ver)
 
     # 최소/최대 투자 단위 설정
-    min_trading_unit = max(int(100000 / chart_data.iloc[-1]['close']), 1)
-    max_trading_unit = max(int(1000000 / chart_data.iloc[-1]['close']), 1)
+    min_trading_unit = max(int(10000 / chart_data.iloc[-1]['close']), 1)
+    max_trading_unit = max(int(100000 / chart_data.iloc[-1]['close']), 1)
 
     # 공통 파라미터 설정
     common_params = {'rl_method': args.rl_method,
@@ -150,19 +150,20 @@ if __name__ == '__main__':
     # #args = init(stock_code, num_epoches, num_steps)
 
     stock_names = ['GOOGL', 'AAPL', 'FB', 'AMZN', 'MSFT']
+    stock_names = ['GOOGL']
 
     for stock_name in stock_names :
 
-        args = init(stock_name, 5, 5)
-        chart_data, pvs = executor(args)
-        buyAndHoldValue = buyAndHold(chart_data)
-        visualizer.present_stock (chart_data, stock_name)
-        visualizer.preset_buyAndHold(chart_data, pvs, buyAndHoldValue, stock_name)
+        # args = init(stock_name, 5, 5)
+        # chart_data, pvs = executor(args)
+        # buyAndHoldValue = buyAndHold(chart_data)
+        # visualizer.present_stock (chart_data, stock_name)
+        # visualizer.preset_buyAndHold(chart_data, pvs, buyAndHoldValue, stock_name)
 
-        steps = [3,4,5,6,10]
+        steps = [3,6,9]
         steps_pvs = []
         for step in steps :
-            args = init(stock_name, 5, step)
+            args = init(stock_name, 10, step)
             chart_data, pvs = executor(args)
             steps_pvs.append(pvs)
         visualizer.present_steps(chart_data, steps, steps_pvs, stock_name)
