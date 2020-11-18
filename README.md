@@ -1,7 +1,12 @@
-## This is a Deep Q learning based stock trading simulation 
+## What is this?
 
+It is a Deep Q learning based US stock trading algorithm.
+
+the performance of this algorithm is compared to the buy-and-hold strategy.
 <img src="https://github.com/h344lee/CS686_Project_RL_Trading/blob/master/GOOGL_buy_and_hold.png" width="300" height="200">
-<img src="https://github.com/h344lee/CS686_Project_RL_Trading/blob/master/GOOGL_present_stock.png" width="300" height="200">
+
+It can present the different performance based on LSTM value network step size
+<img src="https://github.com/h344lee/CS686_Project_RL_Trading/blob/master/GOOGL_present_steps.png" width="300" height="200">
 
 ## Environment
 - [Anaconda 3.7+](https://www.anaconda.com/distribution/)
